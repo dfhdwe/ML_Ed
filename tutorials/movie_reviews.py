@@ -55,6 +55,7 @@ results = model.evaluate(test_data, test_labels)
 
 print(results)
 
+'''
 # prediction for the first test review
 test_review = test_data[0]
 predict = model.predict([test_review])
@@ -63,3 +64,4 @@ print(decode_review(test_review))
 print("Prediction: " + str(predict[0]))
 print("Actual: " + str(test_labels[0]))
 print(results)
+'''

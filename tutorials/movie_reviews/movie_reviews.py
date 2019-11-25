@@ -32,59 +32,29 @@ def decode_review(text):
     return " ".join([reverse_word_index.get(i, "?") for i in text])
 
 # Run this if no model saved
-'''
+
 # add model
 model = keras.Sequential()
 model.add(keras.layers.Embedding(88000, 16))
 model.add(keras.layers.GlobalAveragePooling1D())
 model.add(keras.layers.Dense(16, activation="relu"))
 model.add(keras.layers.Dense(1, activation="sigmoid"))
-
 model.summary()
-
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
-
 # split validation and test set from train data and labels
 x_val = train_data[:10000]
 x_train = train_data[10000:]
-
 y_val = train_labels[:10000]
 y_train = train_labels[10000:]
-
 # fit model
 fitModel = model.fit(x_train, y_train, epochs=40, batch_size=512, validation_data=(x_val, y_val), verbose=1)
-
 results = model.evaluate(test_data, test_labels)
-
 print(results)
-
 model.save("model.h5")
-'''
 
-def review_encode(s):
-    encoded = [1]
-    for word in s:
-        if word in word_index:
-            encoded.append(word_index[word.lower()])
-        else:
-            encoded.append(2)
-    return encoded
-
-# run saved model
-model = keras.models.load_model("model.h5")
-
-with open("test.txt", encoding="utf-8") as f:
-    for line in f.readlines():
-        nline = line.replace(",", "").replace(".", "").replace("(", "").replace(")", "").replace(":", "").replace("\"", "").strip().split()
-        encode = review_encode(nline)
-        encode = keras.preprocessing.sequence.pad_sequences([encode], value=word_index["<PAD>"], padding="post", maxlen=250)
-        predict = model.predict(encode)
-        print(line)
-        print(encode)
-        print(predict[0])
 
 # prediction for the first test review
-'''
+
 test_review = test_data[0]
 predict = model.predict([test_review])
 print("Review: ")
@@ -92,4 +62,3 @@ print(decode_review(test_review))
 print("Prediction: " + str(predict[0]))
 print("Actual: " + str(test_labels[0]))
 print(results)
-'''
